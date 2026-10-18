@@ -50,5 +50,5 @@ peachy-plans/
 Riwayat prompt, evaluasi kode, kesalahan yang ditemukan, serta perbaikannya dijelaskan lengkap pada dokumen proposal.
 
 ## Pembuat
-- Nama: **[ISI NAMA]**
-- NIM: **[ISI NIM]**
+- Nama: Amanda Shinta Sitorus
+- NIM: 11S24048
