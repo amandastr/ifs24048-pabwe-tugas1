@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peachy Plans - Simple To-Do List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <div class="window-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <div class="layout">
+      <aside id="sidebar" class="sidebar" aria-label="Menu utama">
+        <div class="brand"><span data-icon="peach" class="brand-icon"></span><span>Peachy Plans</span></div>
+        <nav class="nav">
+          <button class="nav-item active" data-view="home"><span data-icon="home"></span><span class="nav-label">Home</span></button>
+          <button class="nav-item" data-view="all"><span data-icon="list"></span><span class="nav-label">All Tasks</span><span class="nav-count" data-count="all"></span></button>
+          <button class="nav-item" data-view="progress"><span data-icon="clock"></span><span class="nav-label">In Progress</span><span class="nav-count" data-count="progress"></span></button>
+          <button class="nav-item" data-view="done"><span data-icon="check"></span><span class="nav-label">Completed</span><span class="nav-count" data-count="done"></span></button>
+        </nav>
+        <div class="side-mascot" data-icon="mascot" aria-hidden="true"></div>
+      </aside>
+      <div id="scrim" class="scrim" hidden></div>
+
+      <main class="content">
+        <header class="topbar">
+          <button id="menu-btn" class="icon-btn menu-btn" type="button" aria-label="Buka menu"><span data-icon="menu"></span></button>
+          <div class="brand brand-mobile"><span data-icon="peach" class="brand-icon"></span><span>Peachy Plans</span></div>
+          <div class="top-right">
+            <button id="name-btn" class="hello" type="button" title="Klik untuk mengganti nama">Hallo, <b id="user-name">Kamu</b> <span data-icon="heart" class="heart"></span></button>
+            <button id="theme-toggle" class="icon-btn" type="button" aria-label="Ganti mode tampilan"></button>
+          </div>
+        </header>
+
+        <section id="hero" class="hero">
+          <h1 id="greeting">Good Morning!</h1>
+          <p class="tagline">Small steps make big progress <span data-icon="heart" class="heart"></span></p>
+          <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+          <p id="progress-text" class="progress-text">Belum ada tugas</p>
+        </section>
+        <h2 id="view-title" class="view-title" hidden></h2>
+
+        <form id="add-form" class="add-bar" autocomplete="off">
+          <label class="sr-only" for="quick-title">Tugas baru</label>
+          <input id="quick-title" type="text" maxlength="120" placeholder="Add a new task...">
+          <button id="detail-btn" class="icon-btn soft" type="button" aria-label="Tambah dengan detail" title="Tambah dengan detail"><span data-icon="sliders"></span></button>
+          <button type="submit" class="primary"><span data-icon="plus"></span> Add</button>
+        </form>
+
+        <div class="filter-row">
+          <nav class="pills" aria-label="Filter tugas">
+            <button class="pill active" data-filter="all" data-label="All">All</button>
+            <button class="pill" data-filter="progress" data-label="In Progress">In Progress</button>
+            <button class="pill" data-filter="done" data-label="Completed">Completed</button>
+          </nav>
+          <div class="tools">
+            <label class="search"><span data-icon="search"></span><input id="search" type="search" placeholder="Cari..." aria-label="Cari tugas"></label>
+            <select id="sort" aria-label="Urutkan tugas">
+              <option value="newest">Terbaru</option>
+              <option value="due">Tenggat terdekat</option>
+              <option value="priority">Prioritas</option>
+            </select>
+          </div>
+        </div>
+
+        <ul id="task-list" class="task-list"></ul>
+        <div id="empty-state" class="empty" hidden>
+          <div data-icon="mascot" class="empty-mascot" aria-hidden="true"></div>
+          <p id="empty-text"></p>
+        </div>
+
+        <footer class="foot">
+          <span id="counter">0 tugas aktif</span>
+          <button id="clear-done" class="link-btn" type="button">Hapus yang selesai</button>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="task-dialog" aria-labelledby="dialog-title">
+    <form id="task-form" autocomplete="off">
+      <header class="dlg-head">
+        <span data-icon="peach" class="brand-icon"></span>
+        <h3 id="dialog-title">Tambah Tugas</h3>
+        <button type="button" class="icon-btn" data-close aria-label="Tutup"><span data-icon="close"></span></button>
+      </header>
+      <div class="dlg-body">
+        <label class="field"><span>Judul Tugas</span>
+          <input id="f-title" type="text" maxlength="120" placeholder="Masukkan judul tugas..." required></label>
+        <label class="field"><span>Deskripsi (opsional)</span>
+          <textarea id="f-desc" rows="3" maxlength="300" placeholder="Tambahkan detail tugas..."></textarea></label>
+        <div class="two">
+          <label class="field"><span>Prioritas</span>
+            <select id="f-priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+          <label class="field"><span>Status</span>
+            <select id="f-status"><option value="pending">Pending</option><option value="progress">In Progress</option><option value="done">Completed</option></select></label>
+        </div>
+        <div class="field"><label for="f-due"><span>Tanggal Deadline</span></label>
+          <div class="due-row">
+            <input id="f-due" type="date">
+            <button type="button" class="chip" data-offset="0">Hari ini</button>
+            <button type="button" class="chip" data-offset="1">Besok</button>
+          </div>
+        </div>
+      </div>
+      <footer class="dlg-foot">
+        <button type="button" class="ghost" data-close>Batal</button>
+        <button type="submit" class="primary">Simpan</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="name-dialog" aria-labelledby="name-title">
+    <form id="name-form" autocomplete="off">
+      <header class="dlg-head">
+        <span data-icon="heart" class="heart big"></span>
+        <h3 id="name-title">Siapa namamu?</h3>
+        <button type="button" class="icon-btn" data-close aria-label="Tutup"><span data-icon="close"></span></button>
+      </header>
+      <div class="dlg-body">
+        <label class="field"><span>Nama panggilan</span>
+          <input id="f-name" type="text" maxlength="24" placeholder="Contoh: Amanda" required></label>
+      </div>
+      <footer class="dlg-foot">
+        <button type="button" class="ghost" data-close>Batal</button>
+        <button type="submit" class="primary">Simpan</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-text"></span>
+    <button id="toast-undo" type="button">Urungkan</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
